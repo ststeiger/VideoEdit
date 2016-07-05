@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿
 using System.Windows.Forms;
+
 
 namespace VideoEdit
 {
+
+
     public partial class Form1 : Form
     {
+
+
         public Form1()
         {
             InitializeComponent();
-        }
+        } // End Constructor 
 
 
         private static string MapProjectFile(string file)
@@ -28,7 +27,8 @@ namespace VideoEdit
             dir = dir.Replace('/', System.IO.Path.DirectorySeparatorChar);
 
             return dir;
-        }
+        } // End Function MapProjectFile 
+
 
         private static string MapBindirFile(string file)
         {
@@ -40,11 +40,10 @@ namespace VideoEdit
             dir = dir.Replace('/', System.IO.Path.DirectorySeparatorChar);
 
             return dir;
-        }
+        } // End Function MapBindirFile 
 
 
-
-        private void button1_Click(object sender, EventArgs e)
+        private void btnEditVideo_Click(object sender, System.EventArgs e)
         {
             // ffmpeg -i video.avi -r 0.5 -f image2 output_%05d.jpg
             // produces a frame every 2 seconds because -r means frame rate. 
@@ -77,7 +76,7 @@ namespace VideoEdit
             
             using (System.Diagnostics.Process process = System.Diagnostics.Process.Start(psi))
             {
-                StringBuilder standardOutput = new StringBuilder();
+                System.Text.StringBuilder standardOutput = new System.Text.StringBuilder();
 
                 // read chunk-wise while process is running.
                 while (!process.HasExited)
@@ -94,9 +93,9 @@ namespace VideoEdit
 
             string[] filez = System.IO.Directory.GetFiles(psi.WorkingDirectory, "*.png");
 
-            StringFormat strFormat = new StringFormat();
-            strFormat.Alignment = StringAlignment.Near; // Left, Center, Right
-            strFormat.LineAlignment = StringAlignment.Center; // Top, Middle, Bottom
+            System.Drawing.StringFormat strFormat = new System.Drawing.StringFormat();
+            strFormat.Alignment = System.Drawing.StringAlignment.Near; // Left, Center, Right
+            strFormat.LineAlignment = System.Drawing.StringAlignment.Center; // Top, Middle, Bottom
 
 
 
@@ -104,24 +103,25 @@ namespace VideoEdit
 
             foreach (string file in filez)
             {
-                using (Image img = Image.FromFile(file))
+                using (System.Drawing.Image img = System.Drawing.Image.FromFile(file))
                 {
                     //rotate the picture by 90 degrees and re-save the picture as a Jpeg
-                    img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    img.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipNone);
 
-                    Rectangle rect = new Rectangle(0, 0, img.Width, img.Height);
+                    System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, img.Width, img.Height);
 
-                    using (Graphics g = Graphics.FromImage(img))
+                    using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img))
                     {
                         //g.DrawString("My\nText", new Font("Tahoma", 20), Brushes.White, rect, strFormat);
                         // ®™ ©
-                        g.DrawString("© 2016 COR Air™ GmbH & Co. KG aA", new Font("Tahoma", 20), Brushes.White, rect, strFormat);
+                        g.DrawString("© 2016 COR Air™ GmbH & Co. KG aA", new System.Drawing.Font("Tahoma", 20), System.Drawing.Brushes.White, rect, strFormat);
                         // g.DrawRectangle(pen, rect);
-                    }
+                    } // End Using g 
 
                     img.Save(file, System.Drawing.Imaging.ImageFormat.Png);
-                }
-            }
+                } // End Usinbg img 
+
+            } // Next file 
 
             // https://stackoverflow.com/questions/24961127/ffmpeg-create-video-from-images
             // Create video 
@@ -135,6 +135,11 @@ namespace VideoEdit
             // https://stackoverflow.com/questions/8679390/ffmpeg-extracting-20-images-from-a-video-of-variable-length
             // ffmpeg -i MOV_0911.mp4 $filename%03d.png
             // ffmpeg -i video.avi -r 0.5 -f image2 output_%05d.jpg
-        }
-    }
-}
+
+        } // End Sub btnEditVideo_Click 
+
+
+    } // End Class Form1 : Form
+
+
+} // End Namespace VideoEdit
